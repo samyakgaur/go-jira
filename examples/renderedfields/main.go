@@ -9,7 +9,7 @@ import (
 	"strings"
 	"syscall"
 
-	jira "github.com/chhekur/go-jira"
+	jira "github.com/samyakgaur/go-jira"
 )
 
 func main() {
