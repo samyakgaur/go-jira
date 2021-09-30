@@ -916,6 +916,30 @@ func (s *IssueService) AddComment(issueID string, comment *Comment) (*Comment, *
 	return s.AddCommentWithContext(context.Background(), issueID, comment)
 }
 
+// Comments api for v3
+
+func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID string, comment *Comment) (*Comment, *Response, error) {
+	apiEndpoint := fmt.Sprintf("rest/api/3/issue/%s/comment", issueID)
+	req, err := s.client.NewRequestWithContext(ctx, "POST", apiEndpoint, comment)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	responseComment := new(Comment)
+	resp, err := s.client.Do(req, responseComment)
+	if err != nil {
+		jerr := NewJiraError(resp, err)
+		return nil, resp, jerr
+	}
+
+	return responseComment, resp, nil
+}
+
+// AddComment wraps AddCommentWithContext using the background context.
+func (s *IssueService) AddCommentv3(issueID string, comment *Comment) (*Comment, *Response, error) {
+	return s.AddCommentWithContextv3(context.Background(), issueID, comment)
+}
+
 // UpdateCommentWithContext updates the body of a comment, identified by comment.ID, on the issueID.
 //
 // Jira API docs: https://docs.atlassian.com/jira/REST/cloud/#api/2/issue/{issueIdOrKey}/comment-updateComment
