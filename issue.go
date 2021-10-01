@@ -930,14 +930,14 @@ func (s *IssueService) AddComment(issueID string, comment *Comment) (*Comment, *
 
 // Comments api for v3
 
-func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID string, comment *Commentv3) (*Comment, *Response, error) {
+func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID string, comment *Commentv3) (*Commentv3, *Response, error) {
 	apiEndpoint := fmt.Sprintf("rest/api/3/issue/%s/comment", issueID)
 	req, err := s.client.NewRequestWithContext(ctx, "POST", apiEndpoint, comment)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	responseComment := new(Comment)
+	responseComment := new(Commentv3)
 	resp, err := s.client.Do(req, responseComment)
 	if err != nil {
 		jerr := NewJiraError(resp, err)
@@ -948,7 +948,7 @@ func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID stri
 }
 
 // AddComment wraps AddCommentWithContext using the background context.
-func (s *IssueService) AddCommentv3(issueID string, comment *Commentv3) (*Comment, *Response, error) {
+func (s *IssueService) AddCommentv3(issueID string, comment *Commentv3) (*Commentv3, *Response, error) {
 	return s.AddCommentWithContextv3(context.Background(), issueID, comment)
 }
 
