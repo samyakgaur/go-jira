@@ -461,6 +461,18 @@ type Comment struct {
 	Self         string            `json:"self,omitempty" structs:"self,omitempty"`
 	Name         string            `json:"name,omitempty" structs:"name,omitempty"`
 	Author       User              `json:"author,omitempty" structs:"author,omitempty"`
+	Body         string            `json:"body,omitempty" structs:"body,omitempty"`
+	UpdateAuthor User              `json:"updateAuthor,omitempty" structs:"updateAuthor,omitempty"`
+	Updated      string            `json:"updated,omitempty" structs:"updated,omitempty"`
+	Created      string            `json:"created,omitempty" structs:"created,omitempty"`
+	Visibility   CommentVisibility `json:"visibility,omitempty" structs:"visibility,omitempty"`
+}
+
+type Commentv3 struct {
+	ID           string            `json:"id,omitempty" structs:"id,omitempty"`
+	Self         string            `json:"self,omitempty" structs:"self,omitempty"`
+	Name         string            `json:"name,omitempty" structs:"name,omitempty"`
+	Author       User              `json:"author,omitempty" structs:"author,omitempty"`
 	Body         *bytes.Buffer     `json:"body,omitempty" structs:"body,omitempty"`
 	UpdateAuthor User              `json:"updateAuthor,omitempty" structs:"updateAuthor,omitempty"`
 	Updated      string            `json:"updated,omitempty" structs:"updated,omitempty"`
@@ -918,7 +930,7 @@ func (s *IssueService) AddComment(issueID string, comment *Comment) (*Comment, *
 
 // Comments api for v3
 
-func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID string, comment *Comment) (*Comment, *Response, error) {
+func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID string, comment *Commentv3) (*Comment, *Response, error) {
 	apiEndpoint := fmt.Sprintf("rest/api/3/issue/%s/comment", issueID)
 	req, err := s.client.NewRequestWithContext(ctx, "POST", apiEndpoint, comment)
 	if err != nil {
@@ -936,7 +948,7 @@ func (s *IssueService) AddCommentWithContextv3(ctx context.Context, issueID stri
 }
 
 // AddComment wraps AddCommentWithContext using the background context.
-func (s *IssueService) AddCommentv3(issueID string, comment *Comment) (*Comment, *Response, error) {
+func (s *IssueService) AddCommentv3(issueID string, comment *Commentv3) (*Comment, *Response, error) {
 	return s.AddCommentWithContextv3(context.Background(), issueID, comment)
 }
 
