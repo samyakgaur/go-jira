@@ -461,7 +461,7 @@ type Comment struct {
 	Self         string            `json:"self,omitempty" structs:"self,omitempty"`
 	Name         string            `json:"name,omitempty" structs:"name,omitempty"`
 	Author       User              `json:"author,omitempty" structs:"author,omitempty"`
-	Body         string            `json:"body,omitempty" structs:"body,omitempty"`
+	Body         *bytes.Buffer     `json:"body,omitempty" structs:"body,omitempty"`
 	UpdateAuthor User              `json:"updateAuthor,omitempty" structs:"updateAuthor,omitempty"`
 	Updated      string            `json:"updated,omitempty" structs:"updated,omitempty"`
 	Created      string            `json:"created,omitempty" structs:"created,omitempty"`
